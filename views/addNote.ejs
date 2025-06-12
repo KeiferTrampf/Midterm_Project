@@ -1,0 +1,29 @@
+<%- include('./partials/header.ejs', { title }) %>
+<main id="add-note">
+  <div class="container mt-5">
+    <h1 class="text-center mb-4"><%= title %></h1>
+    <form action="/note/add" method="POST">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          placeholder="Enter note title"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea
+          class="form-control"
+          id="content"
+          name="content"
+          rows="5"
+          placeholder="Enter note content"
+          required
+        ></textarea>
+      </div>
+      
+     

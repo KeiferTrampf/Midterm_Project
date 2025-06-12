@@ -1,0 +1,14 @@
+<%- include('./partials/header.ejs', { title }) %>
+
+    <h1><%= title %></h1>
+    <div class="container">
+        <div class="d-flex p-5 flex-wrap justify-content-evenly">
+    
+                <% notes.map(note => { %>
+                    <%- include('./components/note.ejs', { note })  %>
+                <% }) %>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    
+<%- include('./partials/footer.ejs') %>

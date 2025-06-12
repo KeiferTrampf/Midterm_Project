@@ -1,0 +1,51 @@
+<%- include('./partials/header.ejs', { title }) %>
+<style>
+  @scope (#login) {
+    :scope {
+      background-color: #18191a;
+      /* Vapor's dark background */
+      min-height: 100vh;
+    }
+  }
+</style>
+
+<main id="login">
+  <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 22rem; background: #23272f;">
+      <div class="card-body">
+        <h5 class="card-title text-center mb-4 text-light">Login</h5>
+        <form action="/login" method="POST">
+          <!-- Email input -->
+          <div class="mb-3">
+            <label for="email" class="form-label text-light">Email address</label>
+            <input
+              type="email"
+              class="form-control bg-dark text-light border-secondary"
+              id="email"
+              placeholder="Enter your email"
+              required
+              name="username"
+            />
+          </div>
+          <!-- Password input -->
+          <div class="mb-3">
+            <label for="password" class="form-label text-light">Password</label>
+            <input
+              type="password"
+              class="form-control bg-dark text-light border-secondary"
+              id="password"
+              placeholder="Enter your password"
+              required
+              name="password"
+            />
+          </div>
+          <!-- Login button -->
+          <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold">Login</button>
+        </form>
+        <div class="text-center mt-3">
+          <a href="/reset-password" class="link-light">Forgot your password?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,25 @@
+<% 
+  const categoryMap = {
+    0: { icon: u.icon("journal-bookmark"), label: "Journal" },
+    1: { icon: u.icon("people-fill"), label: "Meeting Minutes" },
+    2: { icon: u.icon("cpu-fill"), label: "Technical Notes" },
+    3: { icon: u.icon("mortarboard-fill"), label: "Academic Notes" },
+    4: { icon: u.icon("check2-square"), label: "Reminders/Tasks" },
+    5: { icon: u.icon("question-circle-fill"), label: "Uncategorized" }
+  };
+
+  const noteType = categoryMap[note.class] || categoryMap[5];
+%>
+
+<div class="card mb-3 shadow" style="width: 22rem;">
+  <div class="card-header d-flex align-items-center gap-2 bg-dark text-light">
+    <span><%- noteType.icon %></span>
+    <strong><%= noteType.label %></strong>
+  </div>
+  <div class="card-body text-light">
+    <h5 class="card-title"><%= note.title %></h5>
+    <p class="card-text"><%= note.content %></p>
+    <a href="/note/<%= note.id %>" class="btn btn-info btn-sm">View</a>
+    <a href="/note/<%= note.id %>/edit" class="btn btn-secondary btn-sm">Edit</a>
+  </div>
+</div>

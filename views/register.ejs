@@ -1,0 +1,50 @@
+<%- include('./partials/header.ejs', { title }) %>
+
+<main id="login">
+  <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 22rem; background: #23272f;">
+      <div class="card-body">
+        <h5 class="card-title text-center mb-4 text-light"><%= title %></h5>
+        <form action="/register" method="POST">
+          <!-- Email input -->
+          <div class="mb-3">
+            <label for="email" class="form-label text-light">Email address</label>
+            <input
+              type="email"
+              class="form-control bg-dark text-light border-secondary"
+              id="email"
+              placeholder="Enter your email"
+              name="username"
+              required
+            />
+          </div>
+          <!-- Password input -->
+          <div class="mb-3">
+            <label for="password" class="form-label text-light">Password</label>
+            <input
+              type="password"
+              class="form-control bg-dark text-light border-secondary"
+              id="password"
+              placeholder="Enter your password"
+              name="password"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="confirm-password" class="form-label text-light">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control bg-dark text-light border-secondary"
+              id="confirm-password"
+              placeholder="Confirm your password"
+              name="confirm-password"
+              required
+            />
+          </div>
+          <!-- Sign Up button -->
+          <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

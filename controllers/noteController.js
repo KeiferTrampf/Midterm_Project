@@ -13,7 +13,6 @@ const CLASS = [
 ];
 
 const homePage = async (req, res) => {
-  const notes = await noteHandler.getAllNotes();
   res.render("home", { title: "Welcome to the Shitshow", notes });
 };
 

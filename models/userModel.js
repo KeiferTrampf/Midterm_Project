@@ -13,6 +13,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.plugin(plm);
+userSchema.plugin(plm, { usernameField: "username" });
 
 export default mongoose.model("User", userSchema);

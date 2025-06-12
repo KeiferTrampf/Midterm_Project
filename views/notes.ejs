@@ -1,0 +1,35 @@
+<%- include('./partials/header.ejs', { title }) %>
+
+<style>
+  @scope (#home-empty) {
+    :scope {
+      background-color: #18191a;
+      min-height: 100vh;
+    }
+  }
+</style>
+
+<% if (!notes || notes.length === 0) { %>
+  <main id="home-empty">
+    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+      <div class="card shadow-lg border-0 rounded-4" style="width: 22rem; background: #23272f;">
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title text-center mb-4 text-light">No Notes Yet</h5>
+          <a href="/add" class="btn btn-primary w-100 rounded-pill fw-bold">New Note</a>
+        </div>
+      </div>
+    </div>
+  </main>
+<% } else { %>
+  <h1><%= title %></h1>
+  <div class="container">
+    <div class="d-flex p-5 flex-wrap justify-content-evenly">
+      <% notes.map(note => { %>
+        <%- include('./components/note.ejs', { note })  %>
+      <% }) %>
+    </div>
+  </div>
+<% } %>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<%- include('./partials/footer.ejs') %>

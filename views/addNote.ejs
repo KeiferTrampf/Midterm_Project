@@ -1,29 +1,50 @@
 <%- include('./partials/header.ejs', { title }) %>
+<style>
+  @scope (#add-note) {
+    :scope {
+      background-color: #18191a;
+      min-height: 100vh;
+    }
+  }
+</style>
+
 <main id="add-note">
-  <div class="container mt-5">
-    <h1 class="text-center mb-4"><%= title %></h1>
-    <form action="/note/add" method="POST">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          name="title"
-          placeholder="Enter note title"
-          required
-        />
+  <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 28rem; background: #23272f;">
+      <div class="card-body">
+        <h5 class="card-title text-center mb-4 text-light"><%= title %></h5>
+        <form action="/note/add" method="POST">
+          <!-- Title input -->
+          <div class="mb-3">
+            <label for="title" class="form-label text-light">Title</label>
+            <input
+              type="text"
+              class="form-control bg-dark text-light border-secondary"
+              id="title"
+              name="title"
+              placeholder="Enter note title"
+              maxlength="32"
+              required
+            />
+          </div>
+          <!-- Note content input -->
+          <div class="mb-3">
+            <label for="note" class="form-label text-light">Content</label>
+            <textarea
+              class="form-control bg-dark text-light border-secondary"
+              id="note"
+              name="note"
+              rows="6"
+              maxlength="300"
+              placeholder="Enter note content"
+              required
+            ></textarea>
+          </div>
+          <!-- Add Note button -->
+          <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold">Add Note</button>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="content" class="form-label">Content</label>
-        <textarea
-          class="form-control"
-          id="content"
-          name="content"
-          rows="5"
-          placeholder="Enter note content"
-          required
-        ></textarea>
-      </div>
-      
-     
+    </div>
+  </div>
+</main>
+

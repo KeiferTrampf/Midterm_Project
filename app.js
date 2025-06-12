@@ -7,7 +7,7 @@ import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import flash from "connect-flash";
-// import utils from "./utils/utils.js";
+import utils from "./utils/utils.js";
 import { router } from "./routes/router.js";
 import { notFound, flashValidationErrors } from "./handlers/errorHandlers.js";
 import methodOverride from "method-override";
@@ -62,13 +62,13 @@ app.use(passport.session()); // persistent login sessions
 
 app.use(flash());
 
-// app.use((req, res, next) => {
-//   res.locals.u = utils;
-//   res.locals.currentPath = req.path; // current path
-//   res.locals.user = req.user; // user object
-//   res.locals.flashes = req.flash();
-//   next();
-// });
+app.use((req, res, next) => {
+  res.locals.u = utils;
+  res.locals.currentPath = req.path; // current path
+  res.locals.user = req.user; // user object
+  res.locals.flashes = req.flash();
+  next();
+});
 
 app.use("/", router);
 

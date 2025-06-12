@@ -1,7 +1,7 @@
 import passport from "passport";
 
 const login = passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/notes",
   failureRedirect: "/login",
   failuresFlash: "⚠️ Invalid Login",
 });

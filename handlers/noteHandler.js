@@ -4,12 +4,12 @@ const createNote = async (noteData) => {
   return await Note.create(noteData);
 };
 
-const getOneNote = async ({ id }) => {
-  return await Note.findOne({ _id: id }).lean();
+const getOneNote = async ({ _id }) => {
+  return await Note.findOne({ _id: _id }).lean();
 };
 
-const getAllNotes = async () => {
-  return await Note.find().lean();
+const getAllNotes = async (userId) => {
+  return await Note.find({ user: userId }).lean();
 };
 
 const updateNote = async (id, noteData) => {
@@ -26,6 +26,12 @@ const deleteNote = async (id) => {
 const getOneNoteBySlug = async ({ slug }) => {
   return await Note.findOne({ slug }).lean();
 };
+const updateNoteBySlug = async (slug, noteData) => {
+  return await Note.findOneAndUpdate({ slug }, noteData, {
+    new: true,
+    runValidators: true,
+  }).lean();
+};
 
 export default {
   createNote,
@@ -34,4 +40,5 @@ export default {
   getOneNote,
   deleteNote,
   getOneNoteBySlug,
+  updateNoteBySlug,
 };

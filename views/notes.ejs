@@ -7,6 +7,12 @@
       min-height: 100vh;
     }
   }
+  @scope (#notes-main) {
+    :scope {
+      background-color: #18191a;
+      min-height: 100vh;
+    }
+  }
 </style>
 
 <% if (!notes || notes.length === 0) { %>
@@ -21,14 +27,21 @@
     </div>
   </main>
 <% } else { %>
-  <h1><%= title %></h1>
-  <div class="container">
-    <div class="d-flex p-5 flex-wrap justify-content-evenly">
-      <% notes.map(note => { %>
-        <%- include('./components/note.ejs', { note })  %>
-      <% }) %>
+  <main id="notes-main">
+    <div class="container-fluid min-vh-100 bg-dark d-flex flex-column align-items-center py-5">
+      <h1 class="text-light mb-4"><%= title %></h1>
+      <div class="row w-100 g-4 justify-content-center">
+        <% notes.map(note => { %>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+            <%- include('./components/note.ejs', { note })  %>
+          </div>
+        <% }) %>
+      </div>
+      <div class="mt-4 w-100 d-flex justify-content-center">
+        <a href="/add" class="btn btn-primary rounded-pill fw-bold px-4">New Note</a>
+      </div>
     </div>
-  </div>
+  </main>
 <% } %>
 <script src="/js/bootstrap.bundle.min.js"></script>
 

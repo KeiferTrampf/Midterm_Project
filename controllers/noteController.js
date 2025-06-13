@@ -13,7 +13,13 @@ const CLASS = [
 ];
 
 const homePage = async (req, res) => {
-  res.render("home", { title: "Welcome to the Shitshow", notes });
+  if (req.user) {
+    return res.redirect("/notes");
+  }
+  res.render("home", {
+    title: "Welcome to the Shitshow",
+    messages: req.flash(), // <-- Add this line
+  });
 };
 
 const addNote = async (req, res) => {
@@ -22,38 +28,32 @@ const addNote = async (req, res) => {
 
 const createNote = async (req, res) => {
   const noteData = req.body;
-  (noteData.name = noteData.name),
-    {
-      allowedTags: [],
-      allowedAttributes: {},
-    };
+  noteData.user = req.user._id; // <-- Attach the logged-in user's ID
   console.log("noteData: ", noteData);
   const note = await noteHandler.createNote(noteData);
   req.flash("success", `/${note.slug} added successfully!`);
-  // res.redirect(`/foodnote/${note.slug}`);
   res.redirect("/");
 };
 
 const getNotes = async (req, res) => {
-  const notes = await noteHandler.getAllNotes();
+  const notes = await noteHandler.getAllNotes(req.user._id);
   res.render("notes", { title: "All Notes", notes });
 };
 
 const editNote = async (req, res) => {
-  const note = await noteHandler.getOneNote({ id: req.params.id });
+  const note = await noteHandler.getOneNoteBySlug({ slug: req.params.slug });
   res.render("editNote", {
-    title: `Edit ${note.name}`,
+    title: `Edit`,
     note,
-    tags: note.tags,
   });
 };
 
 const updateNote = async (req, res) => {
-  const id = req.params.id;
+  const slug = req.params.slug;
   const noteData = req.body;
-  const note = await noteHandler.updateNote(id, noteData);
+  const note = await noteHandler.updateNoteBySlug(slug, noteData);
 
-  res.redirect(`/notes/${note._id}/edit`);
+  res.redirect(`/notes/:${note.slug}/edit`);
 };
 
 const deleteNote = async (req, res) => {
@@ -97,10 +97,16 @@ const getNoteBySlug = async (req, res, next) => {
   const note = await noteHandler.getOneNoteBySlug({ slug: req.params.slug });
 
   if (!note) return next();
-
-  res.render("foodnote", { title: `${note.name}`, note });
+  res.status(200);
+  // res.render("foodnote", { title: `${note.name}`, note });
 };
+const viewNote = async (req, res, next) => {
+  const note = await noteHandler.getOneNoteBySlug({ slug: req.params.slug });
 
+  if (!note) return next();
+  res.status(200);
+  res.render("noteView", { title: `${note.title}`, note });
+};
 export default {
   addNote,
   createNote,
@@ -112,4 +118,5 @@ export default {
   upload,
   resize,
   getNoteBySlug,
+  viewNote,
 };

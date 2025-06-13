@@ -1,25 +1,58 @@
 <% 
+  // Map class index to Feather icon filenames in /public/icons
   const categoryMap = {
-    0: { icon: u.icon("journal-bookmark"), label: "Journal" },
-    1: { icon: u.icon("people-fill"), label: "Meeting Minutes" },
-    2: { icon: u.icon("cpu-fill"), label: "Technical Notes" },
-    3: { icon: u.icon("mortarboard-fill"), label: "Academic Notes" },
-    4: { icon: u.icon("check2-square"), label: "Reminders/Tasks" },
-    5: { icon: u.icon("question-circle-fill"), label: "Uncategorized" }
+    0: { icon: "book", label: "Journal" },
+    1: { icon: "users", label: "Meeting Minutes" },
+    2: { icon: "cpu", label: "Technical Notes" },
+    3: { icon: "book-open", label: "Academic Notes" },
+    4: { icon: "check-square", label: "Reminders/Tasks" },
+    5: { icon: "help-circle", label: "Uncategorized" }
   };
 
   const noteType = categoryMap[note.class] || categoryMap[5];
+
+  // Format date/time (12hr, no timezone)
+  function formatDateTime(dt) {
+    return new Date(dt).toLocaleString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric', 
+      hour: 'numeric', 
+      minute: '2-digit', 
+      hour12: true 
+    });
+  }
+
+  // Show edited time if available, else creation time
+  let displayTime, displayLabel;
+  if (
+    note.updatedAt &&
+    note.createdAt &&
+    new Date(note.updatedAt).getTime() !== new Date(note.createdAt).getTime()
+  ) {
+    displayTime = formatDateTime(note.updatedAt);
+    displayLabel = "Edited on";
+  } else {
+    displayTime = formatDateTime(note.createdAt);
+    displayLabel = "Written on";
+  }
+
+  // Create a preview (first 32 chars)
+  const preview = note.note.length > 32 ? note.note.substring(0, 32) + '...' : note.note;
 %>
 
-<div class="card mb-3 shadow" style="width: 22rem;">
-  <div class="card-header d-flex align-items-center gap-2 bg-dark text-light">
-    <span><%- noteType.icon %></span>
+<div class="card mb-3 shadow-lg border-0 rounded-4" style="width: 22rem; background: #23272f;">
+  <div class="card-header d-flex align-items-center gap-2 bg-dark text-light border-0 rounded-top-4">
+    <span>
+      <img src="/icons/<%= noteType.icon %>.svg" alt="<%= noteType.label %>" class="note-icon-contrast" style="width:1.2em;height:1.2em;vertical-align:middle;">
+    </span>
     <strong><%= noteType.label %></strong>
   </div>
   <div class="card-body text-light">
-    <h5 class="card-title"><%= note.title %></h5>
-    <p class="card-text"><%= note.content %></p>
-    <a href="/note/<%= note.id %>" class="btn btn-info btn-sm">View</a>
-    <a href="/note/<%= note.id %>/edit" class="btn btn-secondary btn-sm">Edit</a>
+    <h5 class="card-title text-light"><%= note.title %></h5>
+    <small class="text-muted"><%= displayLabel %> <%= displayTime %></small>
+    <p class="card-text mt-2 text-light"><%= preview %></p>
+    <a href="/note/<%= note.slug %>" class="btn btn-info btn-sm rounded-pill fw-bold">View</a>
+    <a href="/note/<%= note.slug %>/edit" class="btn btn-secondary btn-sm rounded-pill fw-bold">Edit</a>
   </div>
 </div>

@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import GitHubSlugger from "github-slugger";
-
-const slugger = new GitHubSlugger();
+import slugify from "slugify";
 
 const noteSchema = new mongoose.Schema(
   {
@@ -16,16 +14,12 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide a note."],
       trim: true,
-      maxlength: [300, "Note is too long."],
+      maxlength: [500, "Note is too long."],
     },
     timestamp: {
       type: Date,
       default: Date.now,
     },
-    // class: {
-    //   type: Number,
-    //   default: 6,
-    // },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -35,13 +29,17 @@ const noteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-noteSchema.pre("save", function (next) {
-  if (!this.isModified("name")) {
-    return next();
+noteSchema.pre("save", async function (next) {
+  // Slug logic (only for new or changed title)
+  if (this.isModified("title")) {
+    const baseSlug = slugify(this.title, { lower: true, strict: true });
+    let slug = baseSlug;
+    let count = 1;
+    while (await this.constructor.findOne({ slug })) {
+      slug = `${baseSlug}-${count++}`;
+    }
+    this.slug = slug;
   }
-
-  // TODO: ensure slugs are unique
-  this.slug = slugger.slug(this.name);
   next();
 });
 

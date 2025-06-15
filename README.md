@@ -181,3 +181,14 @@ If you encounter any issues or have questions:
 - CRUD operations for notes
 - Modern responsive UI
 - File upload capabilities
+
+### Challenges and Lessons Learned
+
+- **Authentication Complexity**: Integrating Passport.js with session management and MongoDB required careful configuration to ensure secure and persistent user sessions.
+- **File Upload Handling**: Managing image uploads and resizing with Multer and Jimp introduced challenges around file validation, storage, and error handling.
+- **Form Validation**: Implementing robust client and server-side validation was essential to maintain data integrity and prevent security vulnerabilities.
+- **Error Handling**: Building comprehensive error handling improved user experience and simplified debugging during development.
+- **Responsive Design**: Ensuring a consistent and user-friendly interface across devices required iterative adjustments to Bootstrap and EJS templates.
+- **Environment Configuration**: Managing environment variables securely and documenting setup steps helped streamline onboarding and deployment.
+- **Separation of Concerns**: Structuring the project with clear separation between controllers, models, routes, and utilities made the codebase more maintainable and scalable.
+- **Learning Outcome**: This project reinforced best practices in full-stack development, secure authentication, and modular application architecture.

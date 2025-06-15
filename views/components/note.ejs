@@ -9,7 +9,7 @@
     5: { icon: "help-circle", label: "Uncategorized" }
   };
 
-  const noteType = categoryMap[note.class] || categoryMap[5];
+  const noteType = categoryMap[note.class] || categoryMap[0]; // Default to Journal if class is invalid
 
   // Format date/time (12hr, no timezone)
   function formatDateTime(dt) {

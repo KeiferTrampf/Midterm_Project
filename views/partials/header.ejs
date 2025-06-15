@@ -19,6 +19,15 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">📝 NoteVault</a>
+        <% if (user) { %>
+          <span class="navbar-text text-light">
+            <small>Welcome, <%= user.name %>!</small>
+          </span>
+        <% } else { %>
+        <span class="navbar-text text-muted">
+          <small>by Keifer</small>
+        </span>
+        <% } %>
         <button
           class="navbar-toggler"
           type="button"

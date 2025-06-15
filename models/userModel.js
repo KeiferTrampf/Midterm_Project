@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema({
     trim: true,
     validate: [validator.isEmail, "Invalid email"],
   },
+  name: {
+    type: String,
+    required: [true, "Please provide your name"],
+    trim: true,
+  },
 });
 
 userSchema.plugin(plm, { usernameField: "username" });

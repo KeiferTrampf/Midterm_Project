@@ -3,7 +3,7 @@ import noteController from "../controllers/noteController.js";
 import userController from "../controllers/userController.js";
 import authController from "../controllers/authController.js";
 import { catchErrors } from "../handlers/errorHandlers.js";
-import devCont from "../controllers/devCont.js";
+// import devCont from "../controllers/devCont.js";
 
 export const router = Router();
 
@@ -19,7 +19,7 @@ router.get(
   catchErrors(noteController.getNotes)
 );
 
-router.get("/dev", authController.isAuthenticated, catchErrors(devCont.devRen)); // dev route for testing
+// router.get("/dev", authController.isAuthenticated, catchErrors(devCont.devRen)); // dev route for testing
 
 router.get(
   "/add",
@@ -45,7 +45,7 @@ router.get(
 router.post(
   "/note/:slug/edit",
   // noteController.upload,
-  catchErrors(noteController.resize),
+  // catchErrors(noteController.resize),
   catchErrors(noteController.updateNote)
 );
 router.delete(

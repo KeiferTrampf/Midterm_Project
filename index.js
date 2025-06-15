@@ -4,7 +4,7 @@ import { connect } from "./connect.js";
 
 // TODO: eventually import all our models here
 import "./models/userModel.js";
-
+import "./models/noteModel.js";
 // Connect to MongoDB
 try {
   await connect(process.env.DB_CONN);

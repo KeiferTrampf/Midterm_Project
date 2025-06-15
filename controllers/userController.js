@@ -31,6 +31,7 @@ const register = async (req, res) => {
   await userHandler.register({
     username: req.body.username,
     password: req.body.password,
+    name: req.body.name,
     callback,
   });
 };
@@ -38,6 +39,7 @@ const register = async (req, res) => {
 const validateRegister = [
   body("username").notEmpty().withMessage("Email address is required"),
   body("username").isEmail().withMessage("Please provide a valid email"),
+  body("name").notEmpty().withMessage("Name is required"),
   body("password")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters"),

@@ -3,15 +3,6 @@ import multer from "multer";
 import { Jimp } from "jimp";
 import { v4 as uuidv4 } from "uuid";
 
-const CLASS = [
-  "Journal",
-  "Meeting Minutes",
-  "Technical Notes",
-  "Academic Notes",
-  "Reminders/Tasks",
-  "Other",
-];
-
 const homePage = async (req, res) => {
   if (req.user) {
     return res.redirect("/notes");
@@ -89,28 +80,11 @@ const multerOptions = {
 
 const upload = multer(multerOptions).single("photo");
 
-const resize = async (req, res, next) => {
-  // check if there is a file, and if there isn't call next
-  if (!req.file) {
-    return next(); // skip to the next middleware
-  }
-
-  // image/png = ['image', 'png']
-  const extension = req.file.mimetype.split("/")[1];
-
-  req.body.photo = `${uuidv4()}.${extension}`;
-  console.log("buffer ", req.file.buffer);
-  const photo = await Jimp.read(req.file.buffer);
-  await photo.write(`./public/uploads/${req.body.photo}`); // saves the image in uploads
-  next();
-};
-
 const getNoteBySlug = async (req, res, next) => {
   const note = await noteHandler.getOneNoteBySlug({ slug: req.params.slug });
 
   if (!note) return next();
   res.status(200);
-  // res.render("foodnote", { title: `${note.name}`, note });
 };
 const viewNote = async (req, res, next) => {
   const note = await noteHandler.getOneNoteBySlug({
@@ -137,7 +111,7 @@ export default {
   editNote,
   deleteNote,
   upload,
-  resize,
+  // resize,
   getNoteBySlug,
   viewNote,
 };

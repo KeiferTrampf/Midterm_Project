@@ -34,12 +34,12 @@
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home</a>
+              <a class="nav-link active" href="/notes">Home</a>
             </li>
             <% if (user) { %>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="/notes">My Notes</a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="/add">New Note</a>
               </li>
@@ -62,4 +62,20 @@
         </div>
       </div>
     </nav>
+
+     <% const categories = Object.keys(flashes) %> <% categories.map((category) => { %>
+    <div class="container">
+      <% flashes[category].map((message) => { %>
+      <div class="alert alert-<%= category %> alert-dismissible" role="alert">
+        <%- message %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% }) %>
+    </div>
+    <% }) %>
 

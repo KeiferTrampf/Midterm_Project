@@ -7,7 +7,11 @@ import devCont from "../controllers/devCont.js";
 
 export const router = Router();
 
-router.get("/", catchErrors(noteController.homePage));
+router.get(
+  "/",
+  authController.isAuthenticated,
+  catchErrors(noteController.homePage)
+);
 
 router.get(
   "/notes",
@@ -40,7 +44,7 @@ router.get(
 );
 router.post(
   "/note/:slug/edit",
-  noteController.upload,
+  // noteController.upload,
   catchErrors(noteController.resize),
   catchErrors(noteController.updateNote)
 );
@@ -49,12 +53,20 @@ router.delete(
   authController.isAuthenticated,
   catchErrors(noteController.deleteNote)
 );
-router.get("/register", userController.registerForm);
+router.get(
+  "/register",
+  userController.preventAuthRegister,
+  catchErrors(userController.registerForm)
+);
 router.post(
   "/register",
   userController.validateRegister,
   userController.register
 );
-router.get("/login", userController.loginForm);
+router.get("/login", catchErrors(userController.loginForm));
 router.post("/login", authController.login);
-router.get("/logout", authController.isAuthenticated, authController.logout);
+router.get(
+  "/logout",
+  authController.isAuthenticated,
+  catchErrors(authController.logout)
+);

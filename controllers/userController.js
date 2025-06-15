@@ -1,16 +1,30 @@
 import userHandler from "../handlers/userHandler.js";
 import { body, validationResult } from "express-validator";
+import authController from "./authController.js";
 
 const registerForm = async (req, res) => {
-  res.render("register", { title: "Register" });
+  res.render("register", { title: "Register", flashes: req.flash() });
 };
 
 const register = async (req, res) => {
   const callback = (err, newUser) => {
     if (err) {
-      res.redirect("/register");
+      req.flash(
+        "danger",
+        "There was an error registering your account. Please try again."
+      );
+      res.render("register", {
+        title: "Register",
+        flashes: req.flash(),
+      });
+      console.error("Registration error:", err);
     } else {
-      res.redirect("/login");
+      req.flash("success", "Your account has been created successfully!");
+      res.render("login", {
+        title: "Login",
+        flashes: req.flash(),
+      });
+      console.log("New user registered:", newUser);
     }
   };
 
@@ -37,9 +51,9 @@ const validateRegister = [
     .withMessage("Password does not match Confirm Password"),
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log(">>> errors is: ", errors)
+    console.log(">>> errors is: ", errors);
     if (!errors.isEmpty()) {
-      console.log("inside conditional ")
+      console.log("inside conditional ");
       req.flash("danger", errors.errors.map((err) => err.msg).join(". "));
       res.render("register", { title: "Register", flashes: req.flash() });
     } else {
@@ -49,12 +63,42 @@ const validateRegister = [
 ];
 
 const loginForm = async (req, res) => {
-  res.render("login", { title: "Login" });
+  res.render("login", { title: "Login", flashes: req.flash() });
+};
+const login = async (req, res) => {
+  const callback = (err, user) => {
+    if (err) {
+      req.flash("danger", "There was an error logging in. Please try again.");
+      res.render("login", { title: "Login", flashes: req.flash() });
+      console.error("Login error:", err);
+    } else if (!user) {
+      req.flash("danger", "Invalid email or password.");
+      res.render("login", { title: "Login", flashes: req.flash() });
+    } else {
+      req.flash("success", "You are now logged in!");
+      res.redirect("/notes");
+    }
+  };
+
+  await userHandler.login({
+    username: req.body.username,
+    password: req.body.password,
+    callback,
+  });
 };
 
+const preventAuthRegister = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    req.flash("info", "You are already logged in.");
+    return res.redirect("/notes");
+  }
+  next();
+};
 export default {
   registerForm,
   register,
   validateRegister,
   loginForm,
+  login,
+  preventAuthRegister,
 };

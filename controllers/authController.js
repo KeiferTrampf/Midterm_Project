@@ -1,10 +1,22 @@
 import passport from "passport";
 
-const login = passport.authenticate("local", {
-  successRedirect: "/notes",
-  failureRedirect: "/login",
-  failuresFlash: "⚠️ Invalid Login",
-});
+const login = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      req.flash("danger", "⚠️ Invalid Login");
+      return res.render("login", { title: "Login", flashes: req.flash() });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/notes");
+    });
+  })(req, res, next);
+};
 
 const logout = (req, res, next) => {
   req.logout((err) => {

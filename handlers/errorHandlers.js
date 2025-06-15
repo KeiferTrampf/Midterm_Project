@@ -7,9 +7,9 @@ export const catchErrors = (fn) => {
 export const notFound = (req, res, next) => {
   const err = new Error("⚠️ Not Found");
   err.status = 404;
-  console.error(err);
+  console.error("Not Found Error:", err);
+  req.flash("error", "Whoops! That didn't work. Please try again.");
   res.redirect("/");
-  next(err);
 };
 
 export const flashValidationErrors = (err, req, res, next) => {

@@ -23,8 +23,13 @@ const deleteNote = async (id) => {
   return await Note.findByIdAndDelete(id).lean();
 };
 
-const getOneNoteBySlug = async ({ slug }) => {
-  return await Note.findOne({ slug }).lean();
+const getOneNoteBySlug = async ({ slug, userId }) => {
+  const note = await Note.findOne({ slug }).lean();
+  if (!note || String(note.userId) !== String(userId)) {
+    // Not found or not the author
+    return null;
+  }
+  return note;
 };
 const updateNoteBySlug = async (slug, noteData) => {
   return await Note.findOneAndUpdate({ slug }, noteData, {

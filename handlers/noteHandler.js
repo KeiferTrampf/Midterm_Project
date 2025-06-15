@@ -25,7 +25,7 @@ const deleteNote = async (id) => {
 
 const getOneNoteBySlug = async ({ slug, userId }) => {
   const note = await Note.findOne({ slug }).lean();
-  if (!note || String(note.userId) !== String(userId)) {
+  if (!note || String(note.user) !== String(userId)) {
     // Not found or not the author
     return null;
   }

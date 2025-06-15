@@ -29,7 +29,6 @@ router.get(
 router.post(
   "/add",
   noteController.upload,
-  catchErrors(noteController.resize),
   catchErrors(noteController.createNote)
 );
 router.get(

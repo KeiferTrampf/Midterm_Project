@@ -70,3 +70,13 @@ router.get(
   authController.isAuthenticated,
   catchErrors(authController.logout)
 );
+router.get(
+  "/deactivate",
+  authController.isAuthenticated,
+  catchErrors(userController.deactivateForm)
+);
+router.post(
+  "/deactivate",
+  authController.isAuthenticated,
+  catchErrors(userController.deactivateAccount)
+);

@@ -1,0 +1,49 @@
+<%- include('./partials/header.ejs', { title: "Deactivate Account" }) %>
+<style>
+  @scope (#deactivate) {
+    :scope {
+      background-color: #18191a;
+      min-height: 100vh;
+    }
+    .warning-icon {
+      width: 2.5em;
+      height: 2.5em;
+      vertical-align: middle;
+      filter: invert(53%) sepia(98%) saturate(749%) hue-rotate(330deg) brightness(99%) contrast(101%);
+    }
+  }
+</style>
+
+<main id="deactivate">
+  <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 25rem; background: #23272f;">
+      <div class="card-body d-flex flex-column align-items-center">
+        <img src="/icons/alert-triangle.svg" alt="Warning" class="warning-icon mb-3" />
+        <h5 class="card-title text-center mb-3 text-danger fw-bold">Deactivate Account</h5>
+        <p class="text-light text-center mb-4">
+          Are you sure you want to <span class="fw-bold text-danger">deactivate</span> your account?<br>
+          This action is <span class="fw-bold">irreversible</span> and will permanently remove your notes and data.
+        </p>
+        <form action="/deactivate" method="POST" class="w-100">
+          <div class="mb-3">
+            <label for="confirm" class="form-label text-light">Type <span class="fw-bold text-danger">DEACTIVATE</span> to confirm:</label>
+            <input
+              type="text"
+              class="form-control bg-dark text-light border-secondary"
+              id="confirm"
+              name="confirm"
+              placeholder="DEACTIVATE"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit" class="btn btn-danger w-100 rounded-pill fw-bold mb-2">Deactivate Account</button>
+          <a href="/" class="btn btn-secondary w-100 rounded-pill fw-bold">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<%- include('./partials/footer.ejs') %>

@@ -94,6 +94,34 @@ const preventAuthRegister = (req, res, next) => {
   }
   next();
 };
+const deactivateForm = async (req, res) => {
+  res.render("deactivate", {
+    title: "Deactivate Account",
+    flashes: req.flash(),
+  });
+};
+const deactivateAccount = async (req, res) => {
+  const callback = (err) => {
+    if (err) {
+      req.flash("danger", "There was an error deactivating your account.");
+      res.render("deactivate", {
+        title: "Deactivate Account",
+        flashes: req.flash(),
+      });
+      console.error("Deactivation error:", err);
+    } else {
+      req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+        req.flash("success", "Your account has been deactivated.");
+        res.redirect("/");
+      });
+    }
+  };
+
+  await userHandler.deactivateAccount({ userId: req.user.id, callback });
+};
 export default {
   registerForm,
   register,
@@ -101,4 +129,6 @@ export default {
   loginForm,
   login,
   preventAuthRegister,
+  deactivateForm,
+  deactivateAccount,
 };
